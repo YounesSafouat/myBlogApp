@@ -24,7 +24,12 @@ app.use("/cssfile", express.static(__dirname + "/public"));
 const PORT = process.env.PORT || 4000;
 const productRouter = require('./routes/web')
 const userRouter = require('./routes/webAuth')
+const postsRouter = require('./routes/webPosts')
+const tagsRouter = require('./routes/webTags')
+
 
 app.use('/',productRouter)
 app.use('/user',userRouter)
+app.use('/posts',postsRouter)
+app.use('/tags',tagsRouter)
 

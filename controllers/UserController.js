@@ -45,6 +45,7 @@ exports.login = async (req, res) => {
 
 exports.signOut = async (req, res) => {
   res.clearCookie('token');
+  res.clearCookie('email');
   res.redirect('/')
 };
 //!--------find----------------------
@@ -55,12 +56,11 @@ exports.find = async (req, res) => {
     const user = await User.login(email, password);
     const token = tokenGen(user._id);
     res.cookie("token", token, { maxAge: expDay * 1000, httpOnly: true });
+    res.cookie("email", email, { maxAge: expDay * 1000, httpOnly: true });
     res.redirect('/products')
   } catch (erreur) {
     const errors = handleError(erreur);
     res.render("errorPage", { errors });
-
-   
   }
 };
 //!--------sign----------------------

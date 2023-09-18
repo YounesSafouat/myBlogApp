@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/cssfile/css/post.css" />
+    <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+    crossorigin="anonymous"
+  />
+    <title>Document</title>
+</head>
+<body>
+    <div class="form-container container ">
+        <form class="form" action="/posts" method="post">
+          <div class="form-group">
+            <label for="user"> user name</label>
+            <input type="text" name="user" value="<%= user.name %>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="user"> user email</label>
+            <input type="text" name="email" value="<%= user.email %>" readonly>
+          </div>
+          <div class="form-group">
+            <label for="title"> title</label>
+            <input type="text" name="title" required="">
+          </div>
+          <div class="form-group">
+            <label for="textarea">new message : </label>
+            <textarea name="message" id="textarea" rows="10" cols="50" required="" name="message">          </textarea>
+          </div>
+          <div class="form-group">
+            <label for="tags"> tags</label>
+            <select name="tags" id="tags" multiple>
+              <% tags.forEach((tag) => {%>
+                <option  value="<%= tag.tag %>"><%= tag.tag %></option>
+                <% }) %>
+            </select>
+          </div>
+          <button class="form-submit-btn " type="submit">Submit</button>
+        </form>
+      </div>
+</body>
+</html>
