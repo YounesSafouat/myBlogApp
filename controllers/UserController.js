@@ -88,7 +88,7 @@ exports.newuser = async (req, res) => {
     res.cookie("token", token, { maxAge: expDay * 1000, httpOnly: true });
     res.cookie("email", email, { maxAge: expDay * 1000, httpOnly: true });
     mailer(email,"new account created in our blog",mailcontent.replace('Michele',name))
-    res.redirect("/posts");
+    res.redirect("/");
   } catch (erreur) {
     const errors = handleError(erreur);
     logger.error(errors)
