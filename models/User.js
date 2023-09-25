@@ -18,8 +18,8 @@ const UserSchema = new mongoose.Schema({
     required: [true, "the password is required"],
     minlength: [6, "the password must be at least 6 characters"],
   },
-  avatar: {
-    type: "number",
+  image: {
+    type: "string",
   },
   id: {
     type: "number",
@@ -47,5 +47,5 @@ UserSchema.post("save", function (doc, next) {
   next();
 });
 
-const Product = mongoose.model("users", UserSchema);
+const Product = mongoose.model("User", UserSchema);
 module.exports = Product;

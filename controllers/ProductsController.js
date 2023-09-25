@@ -6,13 +6,12 @@ exports.index = async (req, res) => {
 let isLog = false;
   const token = req.cookies.token;
   const email = req.cookies.email;
-  const users = await User.find({email});
+  const user = await User.findOne({email});
   let posts = false
-  const user = users[0]
-  if (!users) {
+  if (!user) {
     let posts = false
   }else {
-    posts = await Post.find({email});
+    posts = await Post.find({user : user._id});
   }
   if (token) {
     isLog = true;

@@ -1,6 +1,11 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Tag = require("../models/Tag");
+const logger = require("../config/logger");
+const moment = require("moment");
+
+const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+
 const handleError = (err) => {
   console.log(err.message);
   let errors = { name: "", password: "", email: "" };
@@ -21,10 +26,11 @@ const handleError = (err) => {
   }
   return errors;
 };
+
 //!--------index----------------------
 exports.index = async (req, res) => {
   const token = req.cookies.token;
-  const data = await Post.find({});
+  const data = await Post.find({}).populate('user').exec();
   let isLog = false;
   if (token) {
     isLog = true;
@@ -34,58 +40,74 @@ exports.index = async (req, res) => {
   res.render("posts", { data, isLog });
 };
 //!--------find----------------------
-exports.find = async (req, res) => {
-  const token = req.cookies.token;
-  const name = req.params.name;
-  const data = await Post.find({});
-  let isLog = false;
-  if (token) {
-    isLog = true;
-  } else if (token === undefined) {
-    isLog = false;
-  }
-  res.render("posts", { data, isLog });
-};
+// exports.find = async (req, res) => {
+//   const token = req.cookies.token;
+//   const name = req.params.name;
+//   const data = await Post.find({})
+//     .populate("user")
+    
+//   let isLog = false;
+//   if (token) {
+//     isLog = true;
+//   } else if (token === undefined) {
+//     isLog = false;
+//   }
+  
+//   res.render("posts", { data, isLog });
+// };
 //!-----------create-------------------
 exports.create = async (req, res) => {
-  const email = req.cookies.email;
-  const users = await User.find({ email });
-  const user = users[0];
   const tags = await Tag.find({});
-  res.render("post", { tags, user });
+  res.render("post", { tags });
 };
 //!-----------store--------------------
 exports.store = async (req, res) => {
-  let data = await req.body;
+  const email = req.cookies.email;
+  let { title, message, tags } = await req.body;
+  const user = await User.findOne({ email });
   try {
-    const post = await Post.create(data);
+    const post = await Post.create({
+      user: user._id,
+      title,
+      message,
+      tags,
+      image: req.file.filename,
+      time: currentTime,
+    });
     res.redirect("..");
   } catch (erreur) {
     const errors = handleError(erreur);
+    logger.error(errors);
     res.render("errorPage", { errors });
   }
 };
 //!-----------update--------------------
 exports.update = async (req, res) => {
-  let {id} = req.params ;
-  let {title,message} = req.body ;
-  let update = { "title": req.body.title, "message": req.body.message }
+  let { id } = req.params;
+  let { title, message } = req.body;
+  let update = { title: req.body.title, message: req.body.message };
   try {
-    const data = await Post.findByIdAndUpdate(id,{title:title,message:message})
+    const data = await Post.findByIdAndUpdate(id, {
+      title: title,
+      message: message,
+    });
     res.redirect("/");
   } catch (erreur) {
     const errors = handleError(erreur);
+    logger.error(errors);
+
     res.render("errorPage", { errors });
   }
 };
 //!-----------destroy--------------------
 exports.destroy = async (req, res) => {
-  let {id} = req.params ;
+  let { id } = req.params;
   try {
-    const data = await Post.findByIdAndDelete(id)
+    const data = await Post.findByIdAndDelete(id);
     res.redirect("/");
   } catch (erreur) {
     const errors = handleError(erreur);
+    logger.error(errors);
     res.render("errorPage", { errors });
   }
 };

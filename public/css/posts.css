@@ -36,8 +36,7 @@ body {
   
 
   .blog-cover {
-	background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/17779/yosemite-3.jpg");
-	background-size: cover;
+	max-width: 100%;
 	border-radius: 5px 5px 0 0;
 	height: 15rem;
 	box-shadow: inset hsla(0, 0, 0, .2) 0 64px 64px 16px;
@@ -48,9 +47,17 @@ body {
 	padding-top: .125rem;
 	width: 80%;
   }
+  .creator{
+	font-size: 18px;
+	font-weight: 100;
+	color: #78858f;
+	margin-left: 40px;
+	background-color: red;
+	white-space: nowrap;
+   }
   .blog-author h3::before,
   .blog-author--no-cover h3::before {
-	background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/17779/russ.jpeg");
+	
 	background-size: cover;
 	border-radius: 50%;
 	content: " ";

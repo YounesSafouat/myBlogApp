@@ -108,14 +108,40 @@
         </svg>
         <div class="blog-container">
           <div class="blog-header">
-            <div class="blog-author--no-cover">
-              <h3><%= post.user %></h3>
+            <div
+              class="blog-cover"
+              style="
+                background: url('/pictures/pictures/<%= post.image %> ');
+                background-size: cover;
+                background-repeat: no-repeat;
+                width: auto;
+                height: 350px;
+              "
+            >
+              <div
+                class="blog-author"
+                style="
+                  background: url('/pictures/pictures/users/<%= user.image %>');
+                  background-size: cover;
+                  border-radius: 50%;
+                  content: ' ';
+                  display: inline-block;
+                  height: 32px;
+                  margin-right: 0.5rem;
+                  position: relative;
+                  top: 8px;
+                  width: 32px;
+                "
+              >
+          <div class="creator"><%= user.name %></div>
+            </div>
             </div>
           </div>
-
           <div class="blog-body">
             <div class="blog-title">
-              <h1><a href=""></a><%= post.title %></h1>
+              <h1>
+                <a href=""></a><%= post.title %>
+              </h1>
             </div>
             <div class="blog-summary">
               <p><%= post.message %></p>
@@ -130,74 +156,82 @@
           </div>
 
           <div class="blog-footer">
-            <ul >
-              <li class="published-date">12 days ago</li>
+            <ul>
+              <li class="published-date"><%= post.time %></li>
               <li class="shares">
                 <ul>
-                  <li><a href="#"
-                    ><svg class="icon-star">
-                      <use xlink:href="#icon-star"></use></svg
-                    ><span class="numero"><%= post.likes %></span></a
-                  ></li>
-                  <li><span class="dropend">
-                    <button
-                      type="button"
-                      class="btn btn-dark dropdown-toggle"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                      data-bs-auto-close="outside"
+                  <li>
+                    <a href="#"
+                      ><svg class="icon-star">
+                        <use xlink:href="#icon-star"></use></svg
+                      ><span class="numero"><%= post.likes %></span></a
                     >
-                      update form
-                    </button>
-                    <form
-                      class="dropdown-menu p-4"
-                      method="post"
-                      action="/posts/update/<%= post._id %>"
-                    >
-                      <div class="mb-3">
-                        <label for="exampleDropdownFormEmail2" class="form-label">
-                          title</label
-                        >
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="exampleDropdownFormEmail2"
-                          name="title"
-                          placeholder="title"
-                          value="<%= post.title %>"
-                        />
-                      </div>
-                      <div class="mb-3">
-                        <label
-                          for="exampleDropdownFormPassword2"
-                          class="form-label"
-                          >message</label
-                        >
-                        <textarea
-                          type="text"
-                          class="form-control"
-                          id="exampleDropdownFormPassword2"
-                          placeholder="message"
-                          name="message"
-                        >
-                        <%= post.message %>
-                        </textarea>
-                      </div>
-                      <button type="submit" class="btn btn-primary">
-                        update
+                  </li>
+                  <li>
+                    <span class="dropend">
+                      <button
+                        type="button"
+                        class="btn btn-dark dropdown-toggle"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        data-bs-auto-close="outside"
+                      >
+                        update form
                       </button>
-                    </form>
-                  </span></li>
-                  <li><span>
-                    <form action="/posts/delete/<%= post._id %>" method="post">
-                      <button class="btn btn-danger">
-                        delete post
-                      </button>
-                    </form>
-                  </span></li>
+                      <form
+                        class="dropdown-menu p-4 test"
+                        method="post"
+                        action="/posts/update/<%= post._id %>"
+                      >
+                        <div class="mb-3">
+                          <label
+                            for="exampleDropdownFormEmail2"
+                            class="form-label"
+                          >
+                            title</label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="exampleDropdownFormEmail2"
+                            name="title"
+                            placeholder="title"
+                            value="<%= post.title %>"
+                          />
+                        </div>
+                        <div class="mb-3">
+                          <label
+                            for="exampleDropdownFormPassword2"
+                            class="form-label"
+                            >message</label
+                          >
+                          <textarea
+                            type="text"
+                            class="form-control"
+                            id="exampleDropdownFormPassword2"
+                            placeholder="message"
+                            name="message"
+                          >
+<%= post.message %></textarea
+                          >
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                          update
+                        </button>
+                      </form>
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <form
+                        action="/posts/delete/<%= post._id %>"
+                        method="post"
+                      >
+                        <button class="btn btn-danger">delete post</button>
+                      </form>
+                    </span>
+                  </li>
                 </ul>
-                
-                
               </li>
             </ul>
           </div>
@@ -497,9 +531,9 @@
           <div class="card__title">welcome, to my web app</div>
           <div class="card__subtitle">I'm younes a Web Development</div>
           <div class="card__wrapper">
-            <a href="/products"
+            <a href="/posts"
               ><button class="card__btn card__btn-solid btn-lg">
-                products
+                create 
               </button></a
             >
           </div>

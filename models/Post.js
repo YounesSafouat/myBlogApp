@@ -4,12 +4,16 @@ const PostSchema = new mongoose.Schema({
     type: "string",
   },
   user: {
-    type: "string",
-  },
-  email: {
-    type: "string",
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   title: {
+    type: "string",
+  },
+  image: {
+    type: "string",
+  },
+  time: {
     type: "string",
   },
   tags: {

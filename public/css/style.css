@@ -134,9 +134,17 @@ body {
   padding-top: 0.125rem;
   width: 80%;
 }
+.creator{
+  font-size: 18px;
+  font-weight: 100;
+  color: #78858f;
+  margin-left: 40px;
+  background-color: red;
+  white-space: nowrap;
+}
 .blog-author h3::before,
 .blog-author--no-cover h3::before {
-  background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/17779/russ.jpeg");
+  
   background-size: cover;
   border-radius: 50%;
   content: " ";
@@ -237,6 +245,11 @@ body {
   border-radius: 3px;
   padding: 0 0.5rem;
 }
+@media only screen and (max-width: 800px) {
+  .published-date {
+    display: none;
+  }
+}
 .numero {
   position: relative;
   top: -0.5rem;
@@ -252,4 +265,7 @@ body {
   &:hover {
     fill: #ff4d4d;
   }
+}
+.test {
+  width: 500px;
 }

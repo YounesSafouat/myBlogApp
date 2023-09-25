@@ -2,6 +2,12 @@ const cookieParser = require("cookie-parser");
 const User = require("../models/User");
 const express = require("express");
 const jwt = require("jsonwebtoken");
+const logger = require("../config/logger");
+const { mailer } = require("../nodeMailer");
+const path = require('path');
+const parentPath = path.resolve(__dirname, '..');
+const fs = require('fs');
+const mailcontent = fs.readFileSync(parentPath+'/public/index.html','utf-8')
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -10,7 +16,7 @@ const secretKey = process.env.SECRET_KEY;
 const expDay = 60 * 60 * 24;
 //! handle errors for new user--------------------
 const handleError = (err) => {
-  console.log(err.message);
+  logger.error(err.message )
   let errors = { name: "", password: "", email: "" };
   if (err.message === "email does not exist") {
     errors.email = "incorrect email";
@@ -57,9 +63,10 @@ exports.find = async (req, res) => {
     const token = tokenGen(user._id);
     res.cookie("token", token, { maxAge: expDay * 1000, httpOnly: true });
     res.cookie("email", email, { maxAge: expDay * 1000, httpOnly: true });
-    res.redirect('/products')
+    res.redirect('/user/login')
   } catch (erreur) {
     const errors = handleError(erreur);
+    
     res.render("errorPage", { errors });
   }
 };
@@ -73,15 +80,18 @@ exports.sign = async (req, res) => {
 //!--------newuser--------------------
 
 exports.newuser = async (req, res) => {
-  let data = await req.body;
+  let {id,name,email,password} = await req.body;
+  console.log(req.file);
   try {
-    const user = await User.create(data);
+    const user = await User.create({id,name,email,password,image:req.file.filename});
     const token = tokenGen(user._id);
     res.cookie("token", token, { maxAge: expDay * 1000, httpOnly: true });
-    res.redirect("/products");
+    res.cookie("email", email, { maxAge: expDay * 1000, httpOnly: true });
+    mailer(email,"new account created in our blog",mailcontent.replace('Michele',name))
+    res.redirect("/posts");
   } catch (erreur) {
     const errors = handleError(erreur);
+    logger.error(errors)
     res.render("errorPage", { errors });
-    // res.json(errors)
   }
 };
